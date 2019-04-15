@@ -1,5 +1,6 @@
 package com.raywenderlich.android.imet.data.db
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
@@ -11,7 +12,7 @@ interface PeopleDao {
 
     //  1: Select All
     @Query("SELECT * FROM People ORDER by id DESC")
-    fun getAll(): List<People>
+    fun getAll(): LiveData<List<People>>
 
     //  2: Insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -26,3 +27,4 @@ interface PeopleDao {
     fun find(id: Int): People
 
 }
+
