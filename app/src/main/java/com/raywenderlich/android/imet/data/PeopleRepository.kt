@@ -38,7 +38,6 @@ import android.arch.lifecycle.LiveData
 import com.raywenderlich.android.imet.data.db.PeopleDao
 import com.raywenderlich.android.imet.data.db.PeopleDatabase
 import com.raywenderlich.android.imet.data.model.People
-import com.raywenderlich.android.imet.data.net.PeopleInfoProvider
 
 class PeopleRepository(application: Application) {
 
@@ -63,5 +62,10 @@ class PeopleRepository(application: Application) {
      * Finds people with specific id
      */
     fun findPeople(id: Int): People? = peopleDao.find(id)
+
+    /**
+     * Find people by matching name
+     */
+    fun findPeople(name: String): LiveData<List<People>> = peopleDao.findBy(name)
 
 }

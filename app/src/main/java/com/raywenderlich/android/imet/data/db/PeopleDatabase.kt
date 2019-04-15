@@ -38,7 +38,7 @@ abstract class PeopleDatabase : RoomDatabase() {
             return INSTANCE!!
         }
 
-        fun prepopulate(database: PeopleDatabase, peopleList: List<People>) {
+        private fun prepopulate(database: PeopleDatabase, peopleList: List<People>) {
             peopleList.forEach { people ->
                 AsyncTask.execute { database.peopleDao().insert(people) }
             }

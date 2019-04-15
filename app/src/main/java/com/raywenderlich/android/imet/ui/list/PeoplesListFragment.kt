@@ -34,6 +34,7 @@
 package com.raywenderlich.android.imet.ui.list
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -59,21 +60,13 @@ class PeoplesListFragment : Fragment(),
     SearchView.OnCloseListener {
 
     private lateinit var searchView: SearchView
+    private lateinit var viewModel: PeopleListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-    }
 
-    override fun onResume() {
-        super.onResume()
-
-        val peopleRepository = (activity?.application as IMetApp).getPeopleRepository()
-
-        peopleRepository.getAllPeople().observe(this, Observer { peopleList ->
-            populatePeopleList(peopleList!!)
-        })
-
+        viewModel = ViewModelProviders.of(this).get(PeopleListViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -101,6 +94,12 @@ class PeoplesListFragment : Fragment(),
             val addPeopleIntent = Intent(context, AddPeopleActivity::class.java)
             startActivity(addPeopleIntent)
         }
+
+        viewModel.getPeopleList().observe(this, Observer<List<People>> { peopleList ->
+            peopleList?.let{
+                populatePeopleList(it)
+            }
+        })
     }
 
     /**
@@ -112,6 +111,7 @@ class PeoplesListFragment : Fragment(),
      * Callback for searchView query submit
      */
     override fun onQueryTextSubmit(query: String?): Boolean {
+        viewModel.searchPeople(query!!)
         return true
     }
 
@@ -119,6 +119,8 @@ class PeoplesListFragment : Fragment(),
      * Callback for searchView close
      */
     override fun onClose(): Boolean {
+        viewModel.getAllPeople()
+        searchView.onActionViewCollapsed()
         return true
     }
 
