@@ -51,7 +51,7 @@ import kotlinx.android.synthetic.main.fragment_people_details.*
 class PeopleDetailsFragment : Fragment() {
 
     private val peopleDetailsViewModelFactory by lazy {
-        val repository = (activity!!.application as IMetApp).getPeopleRepository()
+        val repository = (activity?.application as IMetApp).getPeopleRepository()
         PeopleDetailsViewModelFactory(repository)
     }
 

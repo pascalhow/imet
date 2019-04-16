@@ -35,7 +35,12 @@ package com.raywenderlich.android.imet.ui.add
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import com.raywenderlich.android.imet.IMetApp
 import com.raywenderlich.android.imet.R
 import com.raywenderlich.android.imet.data.model.People
@@ -46,46 +51,55 @@ import kotlinx.android.synthetic.main.fragment_add_people.*
  */
 class AddPeopleFragment : Fragment() {
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setHasOptionsMenu(true)
-  }
-
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                            savedInstanceState: Bundle?): View? {
-    return inflater.inflate(R.layout.fragment_add_people, container, false)
-  }
-
-  override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-    super.onCreateOptionsMenu(menu, inflater)
-    inflater?.inflate(R.menu.menu_add_people, menu)
-  }
-
-  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-    when (item?.itemId) {
-      R.id.menu_add -> {
-        savePeopleInfo()
-        return true
-      }
+    private val repository by lazy {
+        (activity?.application as IMetApp).getPeopleRepository()
     }
-    return super.onOptionsItemSelected(item)
-  }
 
-  /**
-   * Saves people info from user input and returns to PeopleListActivity
-   */
-  private fun savePeopleInfo() {
-    val people = People(
-        textInputName.editText?.text.toString(),
-        textInputMetAt.editText?.text.toString(),
-        textInputContact.editText?.text.toString(),
-        textInputEmail.editText?.text.toString(),
-        textInputFacebook.editText?.text.toString(),
-        textInputTwitter.editText?.text.toString()
-    )
-    (activity?.application as IMetApp).getPeopleRepository().insertPeople(people)
+    lateinit var viewModel: AddPeopleViewModel
 
-    activity?.finish()
-  }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+
+        viewModel = AddPeopleViewModel(repository)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_add_people, container, false)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu_add_people, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_add -> {
+                savePeopleInfo()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    /**
+     * Saves people info from user input and returns to PeopleListActivity
+     */
+    private fun savePeopleInfo() {
+        val people = People(
+            textInputName.editText?.text.toString(),
+            textInputMetAt.editText?.text.toString(),
+            textInputContact.editText?.text.toString(),
+            textInputEmail.editText?.text.toString(),
+            textInputFacebook.editText?.text.toString(),
+            textInputTwitter.editText?.text.toString()
+        )
+
+        viewModel.addPeople(people)
+
+        activity?.finish()
+    }
 
 }

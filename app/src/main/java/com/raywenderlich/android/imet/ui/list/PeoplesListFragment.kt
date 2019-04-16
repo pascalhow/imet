@@ -62,7 +62,7 @@ class PeoplesListFragment : Fragment(),
     private lateinit var searchView: SearchView
 
     private val peopleListViewModelFactory by lazy {
-        val repository = (activity!!.application as IMetApp).getPeopleRepository()
+        val repository = (activity?.application as IMetApp).getPeopleRepository()
         PeopleListViewModelFactory(repository)
     }
 
