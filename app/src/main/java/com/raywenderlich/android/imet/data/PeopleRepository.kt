@@ -61,7 +61,7 @@ class PeopleRepository(application: Application) {
     /**
      * Finds people with specific id
      */
-    fun findPeople(id: Int): People? = peopleDao.find(id)
+    fun findPeople(id: Int): LiveData<People> = peopleDao.find(id)
 
     /**
      * Find people by matching name

@@ -60,13 +60,19 @@ class PeoplesListFragment : Fragment(),
     SearchView.OnCloseListener {
 
     private lateinit var searchView: SearchView
-    private lateinit var viewModel: PeopleListViewModel
+
+    private val peopleListViewModelFactory by lazy {
+        val repository = (activity!!.application as IMetApp).getPeopleRepository()
+        PeopleListViewModelFactory(repository)
+    }
+
+    private val viewModel by lazy {
+        ViewModelProviders.of(this, peopleListViewModelFactory).get(PeopleListViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-        viewModel = ViewModelProviders.of(this).get(PeopleListViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -96,7 +102,7 @@ class PeoplesListFragment : Fragment(),
         }
 
         viewModel.getPeopleList().observe(this, Observer<List<People>> { peopleList ->
-            peopleList?.let{
+            peopleList?.let {
                 populatePeopleList(it)
             }
         })
