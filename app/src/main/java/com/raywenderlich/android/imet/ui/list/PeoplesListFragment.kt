@@ -50,6 +50,7 @@ import com.raywenderlich.android.imet.data.model.People
 import com.raywenderlich.android.imet.ui.add.AddPeopleActivity
 import com.raywenderlich.android.imet.ui.details.PeopleDetailsActivity
 import kotlinx.android.synthetic.main.fragment_peoples_list.*
+import javax.inject.Inject
 
 /**
  * The Fragment to show people list
@@ -61,10 +62,8 @@ class PeoplesListFragment : Fragment(),
 
     private lateinit var searchView: SearchView
 
-    private val peopleListViewModelFactory by lazy {
-        val repository = (activity?.application as IMetApp).getPeopleRepository()
-        PeopleListViewModelFactory(repository)
-    }
+    @Inject
+    lateinit var peopleListViewModelFactory: PeopleListViewModelFactory
 
     private val viewModel by lazy {
         ViewModelProviders.of(this, peopleListViewModelFactory).get(PeopleListViewModel::class.java)
@@ -73,6 +72,8 @@ class PeoplesListFragment : Fragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        (activity?.application as IMetApp).iMetComponent.inject(this)
     }
 
     override fun onCreateView(

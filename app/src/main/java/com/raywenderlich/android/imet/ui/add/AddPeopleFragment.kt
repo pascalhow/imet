@@ -45,23 +45,21 @@ import com.raywenderlich.android.imet.IMetApp
 import com.raywenderlich.android.imet.R
 import com.raywenderlich.android.imet.data.model.People
 import kotlinx.android.synthetic.main.fragment_add_people.*
+import javax.inject.Inject
 
 /**
  * The Fragment to add people
  */
 class AddPeopleFragment : Fragment() {
 
-    private val repository by lazy {
-        (activity?.application as IMetApp).getPeopleRepository()
-    }
-
+    @Inject
     lateinit var viewModel: AddPeopleViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        viewModel = AddPeopleViewModel(repository)
+        (activity?.application as IMetApp).iMetComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

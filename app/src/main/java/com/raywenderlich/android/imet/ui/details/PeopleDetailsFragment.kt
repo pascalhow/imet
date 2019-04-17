@@ -44,19 +44,23 @@ import com.raywenderlich.android.imet.IMetApp
 import com.raywenderlich.android.imet.R
 import com.raywenderlich.android.imet.data.model.People
 import kotlinx.android.synthetic.main.fragment_people_details.*
+import javax.inject.Inject
 
 /**
  * The Fragment to show people details
  */
 class PeopleDetailsFragment : Fragment() {
 
-    private val peopleDetailsViewModelFactory by lazy {
-        val repository = (activity?.application as IMetApp).getPeopleRepository()
-        PeopleDetailsViewModelFactory(repository)
-    }
+    @Inject
+    lateinit var peopleDetailsViewModelFactory: PeopleDetailsViewModelFactory
 
     private val viewModel by lazy {
         ViewModelProviders.of(this, peopleDetailsViewModelFactory).get(PeopleDetailsViewModel::class.java)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (activity?.application as IMetApp).iMetComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

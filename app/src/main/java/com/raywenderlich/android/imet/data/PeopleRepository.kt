@@ -33,18 +33,18 @@
 
 package com.raywenderlich.android.imet.data
 
-import android.app.Application
 import android.arch.lifecycle.LiveData
+import android.content.Context
 import com.raywenderlich.android.imet.data.db.PeopleDao
 import com.raywenderlich.android.imet.data.db.PeopleDatabase
 import com.raywenderlich.android.imet.data.model.People
 
-class PeopleRepository(application: Application) {
+class PeopleRepository(context: Context) {
 
     private val peopleDao: PeopleDao
 
     init {
-        val peopleDatabase = PeopleDatabase.getInstance(application)
+        val peopleDatabase = PeopleDatabase.getInstance(context)
         peopleDao = peopleDatabase.peopleDao()
     }
 

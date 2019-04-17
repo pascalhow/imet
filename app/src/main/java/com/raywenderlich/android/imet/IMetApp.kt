@@ -35,12 +35,27 @@ package com.raywenderlich.android.imet
 
 import android.app.Application
 import com.raywenderlich.android.imet.data.PeopleRepository
+import com.raywenderlich.android.imet.di.AppComponent
+import com.raywenderlich.android.imet.di.AppModule
+import com.raywenderlich.android.imet.di.DaggerAppComponent
 
 class IMetApp : Application() {
 
-  /**
-   * Provides centralised Repository throughout the app
-   */
-  fun getPeopleRepository() = PeopleRepository(this)
+    lateinit var iMetComponent: AppComponent
 
+    override fun onCreate() {
+        super.onCreate()
+        iMetComponent = initDagger(this)
+    }
+
+    /**
+     * Provides centralised Repository throughout the app
+     */
+    fun getPeopleRepository() = PeopleRepository(this)
+
+    private fun initDagger(app: IMetApp): AppComponent {
+        return DaggerAppComponent.builder()
+            .appModule(AppModule(app))
+            .build()
+    }
 }
