@@ -72,7 +72,8 @@ class PeopleDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Find people with provided id
-        val peopleId = activity?.intent?.getIntExtra(getString(R.string.people_id), 0)
+        val peopleId = arguments?.getInt(getString(R.string.people_id))
+
         peopleId?.let {
             viewModel.getPeopleDetails(peopleId).observe(this, Observer { peopleDetails ->
                 populatePeopleDetails(peopleDetails)

@@ -41,6 +41,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.raywenderlich.android.imet.IMetApp
 import com.raywenderlich.android.imet.R
 import com.raywenderlich.android.imet.data.model.People
@@ -97,7 +98,7 @@ class AddPeopleFragment : Fragment() {
 
         viewModel.addPeople(people)
 
-        activity?.finish()
+        view?.findNavController()?.navigateUp()
     }
 
 }

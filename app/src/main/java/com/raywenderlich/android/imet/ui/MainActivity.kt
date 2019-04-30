@@ -35,13 +35,20 @@ package com.raywenderlich.android.imet.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.raywenderlich.android.imet.R
 
 class MainActivity : AppCompatActivity() {
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
-  }
+    private val navigationController by lazy { findNavController(R.id.navigationHostFragment) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        NavigationUI.setupActionBarWithNavController(this, navigationController)
+    }
+
+    override fun onSupportNavigateUp(): Boolean = navigationController.navigateUp()
 
 }
