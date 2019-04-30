@@ -43,7 +43,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import androidx.navigation.navOptions
 import com.raywenderlich.android.imet.IMetApp
 import com.raywenderlich.android.imet.R
 import com.raywenderlich.android.imet.data.model.People
@@ -96,7 +98,19 @@ class PeoplesListFragment : Fragment(),
 
         // Navigate to add people
         addFab.setOnClickListener {
-            view.findNavController().navigate(R.id.action_peoplesListFragment_to_addPeopleFragment)
+            val options = navOptions {
+                anim {
+                    //  You need all 4 in order to ensure a smooth transition
+                    enter = R.anim.slide_in_right
+                    exit = R.anim.slide_out_left
+                    popEnter = R.anim.slide_in_left
+                    popExit = R.anim.slide_out_right
+                }
+            }
+            view.findNavController().navigate(
+                R.id.action_peoplesListFragment_to_addPeopleFragment,
+                null,
+                options)
         }
 
         viewModel.getPeopleList().observe(this, Observer<List<People>> { peopleList ->

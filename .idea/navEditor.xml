@@ -20,13 +20,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="peopleDetailsFragment2">
+                  <entry key="peopleDetailsFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="299" />
-                            <option name="y" value="-281" />
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -44,6 +44,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_peoplesListFragment_to_addPeopleFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_peoplesListFragment_to_peopleDetailsFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
